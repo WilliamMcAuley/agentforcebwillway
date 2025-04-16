@@ -6,7 +6,7 @@ from .models import Greeting
 
 # Create your views here.
 
-def index(request)
+def index(request):
      return render(request,"index.html")
 #def index(request):
 #    times = int(os.environ.get('TIMES', 3))
