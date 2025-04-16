@@ -6,10 +6,11 @@ from .models import Greeting
 
 # Create your views here.
 
-
-def index(request):
-    times = int(os.environ.get('TIMES', 3))
-    return HttpResponse('Hello! ' * times)
+def index(request)
+     return render(request,"index.html")
+#def index(request):
+#    times = int(os.environ.get('TIMES', 3))
+#    return HttpResponse('Hello! ' * times)
 
 
 def db(request):
