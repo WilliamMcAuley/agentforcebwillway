@@ -1,4 +1,6 @@
-from django.shortcuts import render
+# from django.shortcuts import render
+import requests
+from django.http import HttpResponse
 
 from .models import Greeting
 
@@ -6,7 +8,8 @@ from .models import Greeting
 
 
 def index(request):
-    return render(request, "index.html")
+    r = requests.get('https://httpbin.org/status/418', timeout=10)
+    return HttpResponse('<pre>' + r.text + '</pre>')
 
 
 def db(request):
