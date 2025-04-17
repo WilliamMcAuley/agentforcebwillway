@@ -2,7 +2,6 @@
 
 from django.db import migrations, models
 
-
 class Migration(migrations.Migration):
     initial = True
 
@@ -27,6 +26,18 @@ class Migration(migrations.Migration):
                         auto_now_add=True, verbose_name="date created"
                     ),
                 ),
+            ],
+        ),
+        migrations.CreateModel(
+            name="Account",
+            fields=[
+                ("account_source", models.CharField(max_length=255)),
+                ("created_date", models.DateTimeField()),
+                ("account_id", models.CharField(max_length=18, unique=True)),
+                ("industry", models.CharField(max_length=255)),
+                ("is_deleted", models.BooleanField()),
+                ("name", models.CharField(max_length=255)),
+                ("system_modstamp", models.DateTimeField()),
             ],
         ),
     ]
