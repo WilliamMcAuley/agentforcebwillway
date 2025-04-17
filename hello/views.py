@@ -2,7 +2,8 @@ from django.shortcuts import render
 # import os
 # from django.http import HttpResponse
 
-from .models import Greeting,Account
+# from .models import Greeting,Account
+from .models import Account
 
 # Create your views here.
 
@@ -24,13 +25,19 @@ def db(request):
     # When running the app locally:
     #   1. You have run `./manage.py migrate` to create the `hello_greeting` database table.
 
-    greeting = Greeting()
-    greeting.save()
+#     greeting = Greeting()
+#     greeting.save()
 
-    greetings = Greeting.objects.all()
-    accounts = Account.objects.all()
+#     greetings = Greeting.objects.all()
+#     accounts = Account.objects.all()
 
-    return render(request, "db.html", {"greetings": greetings,"accounts": accounts})
+#     return render(request, "db.html", {"greetings": greetings,"accounts": accounts})
 
+     # greeting = Greeting()
+     # greeting.save()
 
+     # greetings = Greeting.objects.all()
+     accounts = Account.objects.all()
+
+     return render(request, "db.html", {"accounts": accounts})
 
