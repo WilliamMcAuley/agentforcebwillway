@@ -1,6 +1,6 @@
-# from django.shortcuts import render
-import os
-from django.http import HttpResponse
+from django.shortcuts import render
+# import os
+# from django.http import HttpResponse
 
 from .models import Greeting
 
