@@ -16,6 +16,14 @@
 
 </ul>
 
+ <h2>Accounts</h2>
+ <ul>
+ {% for account in accounts %}
+ <li>{{ account.name }} - {{ account.industry }} - {{ account.account_source }}</li>
+ {% endfor %}
+ </ul>
+
+
 </div>
 
 {% endblock %}

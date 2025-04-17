@@ -2,7 +2,7 @@ from django.shortcuts import render
 # import os
 # from django.http import HttpResponse
 
-from .models import Greeting
+from .models import Greeting,Account
 
 # Create your views here.
 
@@ -28,5 +28,9 @@ def db(request):
     greeting.save()
 
     greetings = Greeting.objects.all()
+    accounts = Account.objects.all()
 
-    return render(request, "db.html", {"greetings": greetings})
+    return render(request, "db.html", {"greetings": greetings,"accounts": accounts})
+
+
+
