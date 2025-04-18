@@ -145,8 +145,12 @@ if IS_HEROKU_APP:
         conn_max_age=600,
         conn_health_checks=True,
         ssl_require=True,
-        options='-c search_path=salesforce,public',
+        
         ),
+    }
+
+    DATABASES["default"]["OPTIONS"] = {
+    "options": "-c search_path=salesforce,public"
     }
 else:
     # When running locally in development or in CI, a sqlite database file will be used instead
