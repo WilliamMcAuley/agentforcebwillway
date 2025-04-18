@@ -10,5 +10,5 @@ class Account(models.Model):
     system_modstamp = models.DateTimeField()
 
     class Meta:
-        db_table = 'Account'  # Match the table name Salesforce Connect creates
+        db_table = '"salesforce"."Account"'
         managed = False             # Don't let Django manage this table (no migrations)
