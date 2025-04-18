@@ -7,4 +7,4 @@ class Account(models.Model):
 
     class Meta:
         managed = False  # Because Heroku Connect creates this table, not Django
-        db_table = 'salesforce.account'
+        db_table = 'account'
