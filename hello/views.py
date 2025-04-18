@@ -4,7 +4,7 @@ from .models import Account
 from .forms import AccountForm
 
 
-# Create your views here.
+# Account Detail View
 def account_detail(request,account_id):
      account = get_object_or_404(Account, id=account_id)
 
@@ -25,4 +25,9 @@ def db(request):
      accounts = Account.objects.all()
 
      return render(request, "db.html", {"accounts": accounts})
+
+# News article view
+
+def news_article(request):
+    return render(request, "news_article.html")
 
