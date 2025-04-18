@@ -17,7 +17,9 @@
         {% for account in accounts %}
           <tr>
             <td>{{ account.id }}</td>
-            <td>{{ account.name }}</td>
+            <td>
+              <a href="{% url 'account_detail' account.id %)"{{ account.name }}</a>
+            </td>
             <td>{{ account.industry }}</td>
           </tr>
         {% empty %}
