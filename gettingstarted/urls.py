@@ -23,8 +23,7 @@ import hello.views
 urlpatterns = [
     path("", hello.views.index, name="index"),
     path("db/", hello.views.db, name="db"),
-    path("account/<int:account_id>/", hello.views.account_detail, name="account_detail"),  # 👈 Add this
-    path("account/<int:account_id>/edit/", hello.views.edit_account, name="edit_account")]  # (optional if editing)    # Uncomment this and the entry in `INSTALLED_APPS` if you wish to use the Django admin feature:
+    path("account/<int:account_id>/", hello.views.account_detail, name="account_detail")]  # 👈 Add this
     # https://docs.djangoproject.com/en/5.2/ref/contrib/admin/
     
 
