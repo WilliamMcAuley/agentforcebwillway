@@ -24,7 +24,8 @@ import hello.views
 urlpatterns = [
     path("", hello.views.index, name="index"),
     path("db/", hello.views.db, name="db"),
-    path("account/<int:account_id>/", hello.views.account_detail, name="account_detail")]  # 👈 Add this
+    path("account/<int:account_id>/", hello.views.account_detail, name="account_detail"),
+    path("news/", hello.views.news_article, name="news_article")] 
     # https://docs.djangoproject.com/en/5.2/ref/contrib/admin/
     
 
