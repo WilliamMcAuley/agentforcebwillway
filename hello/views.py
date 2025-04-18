@@ -8,7 +8,7 @@ from .forms import AccountForm
 def account_detail(request,account_id):
      account = get_object_or_404(Account, id=account_id)
 
-     if request.method == "Post":
+     if request.method == "POST":
           form = AccountForm(request.POST, instance=account)
           if form.is_valid():
                form.save()
