@@ -10,5 +10,5 @@ class Account(models.Model):
     system_modstamp = models.DateTimeField()
 
     class Meta:
-        db_table = '"salesforce"."Account"'
+        db_table = 'salesforce.account'
         managed = False             # Don't let Django manage this table (no migrations)
