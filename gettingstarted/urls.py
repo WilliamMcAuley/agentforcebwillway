@@ -1,3 +1,4 @@
+from hello import views
 """
 URL configuration for gettingstarted project.
 
