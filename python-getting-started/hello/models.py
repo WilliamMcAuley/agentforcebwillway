@@ -6,7 +6,7 @@ class Account(models.Model):
     industry = models.CharField(max_length=255)
 
     class Meta:
-        managed = False  # Because Heroku Connect creates this table, not Django
+        managed = False  # Because Heroku Connects creates this table, not Django
         db_table = 'account'
 
 class JobApplication(models.Model):

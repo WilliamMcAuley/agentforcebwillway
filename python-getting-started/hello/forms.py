@@ -13,7 +13,7 @@ class AccountForm(forms.ModelForm):
 class JobApplicationForm(forms.ModelForm):
     class Meta:
         model = JobApplication
-        fields = ['name']  # Add more fields if you want to edit them.
+        fields = ['name']  # Adds more fields if you want to edit them.
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

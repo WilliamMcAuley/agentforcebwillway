@@ -36,7 +36,7 @@ def jobs_list(request):
     jobs = JobApplication.objects.all()
     return render(request, "jobs_list.html", {"jobs": jobs})
 
-# Job application detail/edit view
+# Job application detail/edit views
 def job_detail(request, job_id):
     job = get_object_or_404(JobApplication, id=job_id)
     if request.method == "POST":
