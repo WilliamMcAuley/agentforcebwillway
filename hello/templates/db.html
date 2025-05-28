@@ -5,12 +5,13 @@
     <h1>Database Page</h1>
 
     <h3>Accounts by Industry</h3>
+    {{ industry_counts|json_script:"industry-data" }}
     <canvas id="industryBarChart" width="600" height="300"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         try {
-          const industryData = {{ industry_counts|safe }};
+          const industryData = JSON.parse(document.getElementById('industry-data').textContent);
           const labels = industryData.map(item => item.industry || "Unknown");
           const data = industryData.map(item => item.account_count);
 
@@ -53,7 +54,6 @@
         }
       });
     </script>
-    <pre id="industry-debug">{{ industry_counts|safe }}</pre>
 
     <h3>List of Accounts</h3>
     <table class="table">
