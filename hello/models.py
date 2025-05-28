@@ -18,3 +18,12 @@ class JobApplication(models.Model):
     class Meta:
         managed = False  # Heroku Connect manages this table
         db_table = 'job_application__c'
+
+class NewsArticle(models.Model):
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True)
+    content = models.TextField()
+    published = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'news_article'
