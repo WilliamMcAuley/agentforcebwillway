@@ -40,7 +40,7 @@
       console.debug("stage_counts data from Django:", {{ stage_counts|safe }});
 
       const stageData = {{ stage_counts|safe }};
-      const labels = stageData.map(item => item.Application_Status__c || "Unknown");
+      const labels = stageData.map(item => item.application_status || "Unknown");
       const data = stageData.map(item => item.count);
 
       // Debug log: show parsed labels and data
