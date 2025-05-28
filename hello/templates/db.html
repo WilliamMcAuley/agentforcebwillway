@@ -82,7 +82,16 @@
                 r: Math.max(10, item.account_count * 3),
                 industry: item.industry || "Unknown"
               })),
-              backgroundColor: 'rgba(54, 162, 235, 0.6)'
+              backgroundColor: industryData.map(item => {
+                // Example: More accounts = deeper blue, fewer = lighter blue
+                const count = item.account_count;
+                // Clamp count for color scaling
+                const min = 1, max = Math.max(...industryData.map(i => i.account_count));
+                const percent = (count - min) / (max - min || 1);
+                // Interpolate between two colors (light blue to deep blue)
+                const r = 54, g = 162, b = Math.round(235 - percent * 100);
+                return `rgba(${r},${g},${b},0.6)`;
+              })
             }]
           },
           options: {
