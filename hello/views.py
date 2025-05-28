@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Count
-from .models import Account, JobApplication
+from .models import Account, JobApplication, NewsArticle
 from .forms import AccountForm, JobApplicationForm
 from collections import defaultdict
 
@@ -47,8 +47,13 @@ def db(request):
 
 # News article view
 
-def news_article(request):
-    return render(request, "news_article.html")
+def news_article(request, slug):
+    article = get_object_or_404(NewsArticle, slug=slug)
+    return render(request, "news_article.html", {"article": article})
+
+def news_list(request):
+    articles = NewsArticle.objects.order_by('-published')
+    return render(request, "news_list.html", {"articles": articles})
 
 # List all job applications
 def jobs_list(request):
