@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Count
+from collections import defaultdict
 from .models import Account, JobApplication
 from .forms import AccountForm, JobApplicationForm
 
@@ -40,9 +41,14 @@ def jobs_list(request):
         .annotate(count=Count('id'))
         .order_by('application_status')
     )
+    kanban = defaultdict(list)
+    for job in jobs:
+        kanban[job.application_status or "Unknown"].append(job)
+    kanban = dict(sorted(kanban.items()))
     return render(request, "jobs_list.html", {
         "jobs": jobs,
         "stage_counts": list(stage_counts),
+        "kanban": kanban,
     })
 
 # Job application detail/edit views

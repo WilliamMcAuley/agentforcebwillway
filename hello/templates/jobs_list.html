@@ -2,50 +2,56 @@
 
 {% block content %}
   <div class="container">
-    <h1>Job Application</h1>
-     <!-- Chart Container -->
-    <h3>Job Applications by Stage</h3>
-    <canvas id="stageChart" width="400" height="150"></canvas>
+    <h1>Job Applications</h1>
+    <!-- Tab Buttons -->
+    <div style="margin-bottom: 1rem;">
+      <button id="tab-bar" onclick="showTab('bar')" class="tab-btn active">Bar Chart</button>
+      <button id="tab-kanban" onclick="showTab('kanban')" class="tab-btn">Kanban Board</button>
+    </div>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <!-- Add more fields as needed -->
-        </tr>
-      </thead>
-      <tbody>
-        {% for job in jobs %}
-          <tr>
-            <td>{{ job.id }}</td>
-            <td>
-              <a href="{% url 'job_detail' job.id %}">{{ job.name }}</a>
-            </td>
-          </tr>
-        {% empty %}
-          <tr>
-            <td colspan="2">No job applications were found</td>
-          </tr>
+    <!-- Bar Chart View -->
+    <div id="bar-view">
+      <h3>Job Applications by Status</h3>
+      <canvas id="stageChart" width="400" height="150"></canvas>
+    </div>
+
+    <!-- Kanban Board View -->
+    <div id="kanban-view" style="display:none;">
+      <h3>Kanban Board</h3>
+      <div style="display: flex; gap: 2rem; overflow-x: auto;">
+        {% for status, jobs in kanban.items %}
+          <div style="min-width: 250px; background: #f4f4f4; border-radius: 8px; padding: 1rem;">
+            <h4 style="text-align:center;">{{ status }}</h4>
+            {% for job in jobs %}
+              <div style="background: #fff; margin-bottom: 1rem; padding: 0.5rem 1rem; border-radius: 4px; box-shadow: 0 1px 3px #ccc;">
+                <a href="{% url 'job_detail' job.id %}"><strong>{{ job.name }}</strong></a>
+                <div style="font-size: 0.9em; color: #888;">ID: {{ job.id }}</div>
+              </div>
+            {% empty %}
+              <div>No jobs in this stage.</div>
+            {% endfor %}
+          </div>
         {% endfor %}
-      </tbody>
-    </table>
+      </div>
+    </div>
   </div>
 
-    <!-- Chart.js CDN -->
+  <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    try {
-      // Debug log: show the raw data passed from Django
-      console.debug("stage_counts data from Django:", {{ stage_counts|safe }});
+    // Tab switching logic
+    function showTab(tab) {
+      document.getElementById('bar-view').style.display = (tab === 'bar') ? '' : 'none';
+      document.getElementById('kanban-view').style.display = (tab === 'kanban') ? '' : 'none';
+      document.getElementById('tab-bar').classList.toggle('active', tab === 'bar');
+      document.getElementById('tab-kanban').classList.toggle('active', tab === 'kanban');
+    }
 
+    // Chart rendering (only runs if bar chart is visible)
+    try {
       const stageData = {{ stage_counts|safe }};
       const labels = stageData.map(item => item.application_status || "Unknown");
       const data = stageData.map(item => item.count);
-
-      // Debug log: show parsed labels and data
-      console.debug("Chart labels:", labels);
-      console.debug("Chart data:", data);
 
       const ctx = document.getElementById('stageChart').getContext('2d');
       new Chart(ctx, {
@@ -65,7 +71,6 @@
         }
       });
     } catch (err) {
-      // Log the error and show a user-friendly message
       console.error("Error rendering chart:", err);
       const chartContainer = document.getElementById('stageChart');
       if (chartContainer) {
@@ -73,4 +78,19 @@
       }
     }
   </script>
+  <style>
+    .tab-btn {
+      padding: 0.5rem 1.5rem;
+      border: none;
+      background: #eee;
+      cursor: pointer;
+      border-radius: 5px 5px 0 0;
+      margin-right: 0.5rem;
+      font-weight: bold;
+    }
+    .tab-btn.active {
+      background: #4287f5;
+      color: #fff;
+    }
+  </style>
 {% endblock %}
