@@ -154,37 +154,45 @@
         document.getElementById('industryBubbleChart').outerHTML =
           "<div style='color: #888; margin: 1em 0;'>No industry data available to display chart.</div>";
       } else {
-        const labels = industryData.map(item => item.industry || "Unknown");
-        const data = industryData.map(item => item.account_count);
+        const data = {
+          labels: industryData.map(item => item.industry || "Unknown"),
+          datasets: [{
+            label: 'Accounts by Industry',
+            data: industryData.map((item, idx) => ({
+              x: idx + 1,
+              y: item.account_count,
+              r: Math.max(10, item.account_count * 3)
+            })),
+            backgroundColor: 'rgba(54, 162, 235, 0.6)'
+          }]
+        };
 
         new Chart(document.getElementById('industryBubbleChart').getContext('2d'), {
-          type: 'bar',
-          data: {
-            labels: labels,
-            datasets: [{
-              label: 'Accounts',
-              data: data,
-              backgroundColor: 'rgba(54, 162, 235, 0.6)'
-            }]
-          },
+          type: 'bubble',
+          data: data,
           options: {
             plugins: {
               legend: { display: false }
             },
             scales: {
+              x: {
+                title: { display: true, text: 'Industry' },
+                ticks: {
+                  callback: function(value, index) {
+                    return industryData[index] ? (industryData[index].industry || "Unknown") : '';
+                  }
+                }
+              },
               y: {
                 beginAtZero: true,
                 title: { display: true, text: 'Accounts' }
-              },
-              x: {
-                title: { display: true, text: 'Industry' }
               }
             }
           }
         });
       }
     } catch (err) {
-      console.error("Error rendering industry chart:", err);
+      console.error("Error rendering industry bubble chart:", err);
       const chartContainer = document.getElementById('industryBubbleChart');
       if (chartContainer) {
         chartContainer.outerHTML = "<div style='color:red;'>Could not render chart. See console for details.</div>";
