@@ -35,26 +35,26 @@
     <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    const stageData = {{ stage_counts|safe }};
-    const labels = stageData.map(item => item.Application_Status__c || "Unknown");
-    const data = stageData.map(item => item.count);
+  const stageData = {{ stage_counts|safe }};
+  const labels = stageData.map(item => item.Application_Status__c || "Unknown");
+  const data = stageData.map(item => item.count);
 
-    const ctx = document.getElementById('stageChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Number of Applications',
-          data: data,
-          backgroundColor: 'rgba(54, 162, 235, 0.6)'
-        }]
-      },
-      options: {
-        scales: {
-          y: { beginAtZero: true }
-        }
+  const ctx = document.getElementById('stageChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Number of Applications',
+        data: data,
+        backgroundColor: 'rgba(54, 162, 235, 0.6)'
+      }]
+    },
+    options: {
+      scales: {
+        y: { beginAtZero: true }
       }
-    });
+    }
+  });
   </script>
 {% endblock %}
