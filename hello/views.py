@@ -19,6 +19,16 @@ def account_detail(request, account_id):
 
     return render(request, "account_detail.html", {"form": form, "account": account})
 
+def add_account(request):
+    if request.method == "POST":
+        form = AccountForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('db')  # or wherever you want to go after adding
+    else:
+        form = AccountForm()
+    return render(request, "add_account.html", {"form": form})
+
 #orginal render only views
 def index(request):
      return render(request,"index.html")
