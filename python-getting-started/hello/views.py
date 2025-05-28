@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
+from django.db.models import Count
 from .models import Account, JobApplication
 from .forms import AccountForm, JobApplicationForm
 
@@ -34,7 +35,15 @@ def news_article(request):
 # List all job applications
 def jobs_list(request):
     jobs = JobApplication.objects.all()
-    return render(request, "jobs_list.html", {"jobs": jobs})
+    stage_counts = (
+        JobApplication.objects.values('application_status')
+        .annotate(count=Count('id'))
+        .order_by('application_status')
+    )
+    return render(request, "jobs_list.html", {
+        "jobs": jobs,
+        "stage_counts": list(stage_counts),
+    })
 
 # Job application detail/edit views
 def job_detail(request, job_id):
