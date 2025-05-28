@@ -30,59 +30,51 @@
     </table>
 
     <h3>Accounts by Industry</h3>
-    <canvas id="industryBubbleChart" width="600" height="300"></canvas>
+    <canvas id="industryBarChart" width="600" height="300"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
       try {
         const industryData = {{ industry_counts|safe }};
-        console.debug("Industry counts data:", industryData);
+        const labels = industryData.map(item => item.industry || "Unknown");
+        const data = industryData.map(item => item.account_count);
 
-        if (industryData.length === 0) {
-          document.getElementById('industryBubbleChart').outerHTML =
+        if (labels.length === 0) {
+          document.getElementById('industryBarChart').outerHTML =
             "<div style='color: #888; margin: 1em 0;'>No industry data available to display chart.</div>";
         } else {
-          const data = {
-            datasets: industryData.map((item, idx) => ({
-              label: item.industry || "Unknown",
-              data: [{x: idx + 1, y: item.account_count, r: Math.max(10, item.account_count * 3)}],
-              backgroundColor: `hsl(${idx * 40 % 360}, 70%, 60%)`
-            }))
-          };
-
-          new Chart(document.getElementById('industryBubbleChart').getContext('2d'), {
-            type: 'bubble',
-            data: data,
+          new Chart(document.getElementById('industryBarChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: 'Accounts',
+                data: data,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)'
+              }]
+            },
             options: {
               plugins: {
                 legend: { display: false }
               },
               scales: {
-                x: {
-                  title: { display: true, text: 'Industry' },
-                  ticks: {
-                    callback: function(value, index) {
-                      return industryData[index] ? industryData[index].industry : '';
-                    }
-                  }
-                },
                 y: {
                   beginAtZero: true,
                   title: { display: true, text: 'Accounts' }
+                },
+                x: {
+                  title: { display: true, text: 'Industry' }
                 }
               }
             });
         }
       } catch (err) {
-        console.error("Error rendering industry bubble chart:", err);
-        const chartContainer = document.getElementById('industryBubbleChart');
+        console.error("Error rendering industry bar chart:", err);
+        const chartContainer = document.getElementById('industryBarChart');
         if (chartContainer) {
           chartContainer.outerHTML = "<div style='color:red;'>Could not render chart. See console for details.</div>";
         }
       }
     </script>
-    <pre>
-      {{ industry_counts|safe }}
-    </pre>
   </div>
 {% endblock %}
 
