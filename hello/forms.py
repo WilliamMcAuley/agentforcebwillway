@@ -8,13 +8,16 @@ class AccountForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['id'] = forms.CharField(initial=self.instance.id, disabled=True)
+        # Only show the id field if editing an existing instance
+        if self.instance and self.instance.pk:
+            self.fields['id'] = forms.CharField(initial=self.instance.id, disabled=True, required=False)
 
 class JobApplicationForm(forms.ModelForm):
     class Meta:
         model = JobApplication
-        fields = ['name']  # Adds more fields if you want to edit them.
+        fields = ['name']  # Add more fields as needed
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['id'] = forms.CharField(initial=self.instance.id, disabled=True)
+        if self.instance and self.instance.pk:
+            self.fields['id'] = forms.CharField(initial=self.instance.id, disabled=True, required=False)
