@@ -12,7 +12,7 @@ class Account(models.Model):
 class JobApplication(models.Model):
     id = models.CharField(max_length=255, primary_key=True)
     name = models.CharField(max_length=255)
-    Application_Status__c = models.CharField(max_length=255)
+    application_status = models.CharField(max_length=255, db_column='Application_Status__c')
     # Add other fields as needed.
 
     class Meta:
