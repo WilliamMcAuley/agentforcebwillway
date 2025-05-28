@@ -3,6 +3,10 @@
 {% block content %}
   <div class="container">
     <h1>Job Application</h1>
+     <!-- Chart Container -->
+    <h3>Job Applications by Stage</h3>
+    <canvas id="stageChart" width="400" height="150"></canvas>
+
     <table class="table">
       <thead>
         <tr>
@@ -27,4 +31,30 @@
       </tbody>
     </table>
   </div>
+
+    <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const stageData = {{ stage_counts|safe }};
+    const labels = stageData.map(item => item.stage || "Unknown");
+    const data = stageData.map(item => item.count);
+
+    const ctx = document.getElementById('stageChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Number of Applications',
+          data: data,
+          backgroundColor: 'rgba(54, 162, 235, 0.6)'
+        }]
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
 {% endblock %}

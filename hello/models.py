@@ -12,6 +12,7 @@ class Account(models.Model):
 class JobApplication(models.Model):
     id = models.CharField(max_length=255, primary_key=True)
     name = models.CharField(max_length=255)
+    stage = models.CharField(max_length=255)
     # Add other fields as needed.
 
     class Meta:
