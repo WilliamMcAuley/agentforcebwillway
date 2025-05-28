@@ -29,6 +29,44 @@
         {% endfor %}
       </tbody>
     </table>
+
+    <h3>Accounts by Industry</h3>
+    <canvas id="industryBubbleChart" width="600" height="300"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const industryData = {{ industry_counts|safe }};
+      const data = {
+        datasets: industryData.map((item, idx) => ({
+          label: item.industry || "Unknown",
+          data: [{x: idx + 1, y: item.account_count, r: Math.max(10, item.account_count * 3)}],
+          backgroundColor: `hsl(${idx * 40 % 360}, 70%, 60%)`
+        }))
+      };
+
+      new Chart(document.getElementById('industryBubbleChart').getContext('2d'), {
+        type: 'bubble',
+        data: data,
+        options: {
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: {
+              title: { display: true, text: 'Industry' },
+              ticks: {
+                callback: function(value, index) {
+                  return industryData[index] ? industryData[index].industry : '';
+                }
+              }
+            },
+            y: {
+              beginAtZero: true,
+              title: { display: true, text: 'Accounts' }
+            }
+          }
+        }
+      });
+    </script>
   </div>
 {% endblock %}
 

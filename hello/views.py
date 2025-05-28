@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from django.db.models import Count  # Make sure this import is present
+from django.db.models import Count
 from .models import Account, JobApplication
 from .forms import AccountForm, JobApplicationForm
 from collections import defaultdict
@@ -25,8 +25,16 @@ def index(request):
 
 def db(request):
      accounts = Account.objects.all()
-
-     return render(request, "db.html", {"accounts": accounts})
+     # Aggregate job applications by industry
+     industry_counts = (
+    Account.objects.values('industry')
+    .annotate(account_count=Count('id'))
+    .order_by('-account_count')
+)
+     return render(request, "db.html", {
+        "accounts": accounts,
+        "industry_counts": list(industry_counts),
+    })
 
 # News article view
 
@@ -47,10 +55,12 @@ def jobs_list(request):
     for job in jobs:
         kanban[job.application_status or "Unknown"].append(job)
     kanban = dict(sorted(kanban.items()))
+    accounts = Account.objects.all()
     return render(request, "jobs_list.html", {
         "jobs": jobs,
         "stage_counts": list(stage_counts),
-        "kanban": kanban,  # <-- Add this line
+        "kanban": kanban,  # Grouped jobs by status
+        "accounts": accounts, # Pass accounts for potential use in the jobs_list.html template
     })
 
 # Job application detail/edit views
