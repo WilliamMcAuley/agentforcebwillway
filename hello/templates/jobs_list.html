@@ -51,7 +51,7 @@
       </thead>
       <tbody>
         {% for job in jobs %}
-          <tr>
+          <tr data-status="{{ job.application_status|default:'Unknown' }}">
             <td>{{ job.id }}</td>
             <td>
               <a href="{% url 'job_detail' job.id %}">{{ job.name }}</a>
@@ -78,14 +78,27 @@
       document.getElementById('tab-kanban').classList.toggle('active', tab === 'kanban');
     }
 
-    // Chart rendering (only runs if bar chart is visible)
+    // Filter table rows by status
+    function filterJobTable(status) {
+      const rows = document.querySelectorAll('table.table tbody tr[data-status]');
+      rows.forEach(row => {
+        if (status === 'All' || row.getAttribute('data-status') === status) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    // Listen for bar chart clicks
+    let chartInstance;
     try {
       const stageData = {{ stage_counts|safe }};
       const labels = stageData.map(item => item.application_status || "Unknown");
       const data = stageData.map(item => item.count);
 
       const ctx = document.getElementById('stageChart').getContext('2d');
-      new Chart(ctx, {
+      chartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
           labels: labels,
@@ -96,6 +109,13 @@
           }]
         },
         options: {
+          onClick: function(evt, elements) {
+            if (elements.length > 0) {
+              const idx = elements[0].index;
+              const status = labels[idx];
+              filterJobTable(status);
+            }
+          },
           scales: {
             y: { beginAtZero: true }
           }
@@ -108,6 +128,22 @@
         chartContainer.outerHTML = "<div style='color:red;'>Could not render chart. See console for details.</div>";
       }
     }
+
+    // Listen for Kanban column clicks
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('#kanban-view h4').forEach(function(header) {
+        header.style.cursor = 'pointer';
+        header.addEventListener('click', function() {
+          filterJobTable(header.textContent.trim());
+        });
+      });
+      // Optional: Add a way to reset filter (show all)
+      const resetBtn = document.createElement('button');
+      resetBtn.textContent = 'Show All';
+      resetBtn.className = 'tab-btn';
+      resetBtn.onclick = function() { filterJobTable('All'); };
+      document.querySelector('.container').appendChild(resetBtn);
+    });
   </script>
   <style>
     .tab-btn {
