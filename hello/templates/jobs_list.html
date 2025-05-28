@@ -35,26 +35,42 @@
     <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-  const stageData = {{ stage_counts|safe }};
-  const labels = stageData.map(item => item.Application_Status__c || "Unknown");
-  const data = stageData.map(item => item.count);
+    try {
+      // Debug log: show the raw data passed from Django
+      console.debug("stage_counts data from Django:", {{ stage_counts|safe }});
 
-  const ctx = document.getElementById('stageChart').getContext('2d');
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Number of Applications',
-        data: data,
-        backgroundColor: 'rgba(54, 162, 235, 0.6)'
-      }]
-    },
-    options: {
-      scales: {
-        y: { beginAtZero: true }
+      const stageData = {{ stage_counts|safe }};
+      const labels = stageData.map(item => item.Application_Status__c || "Unknown");
+      const data = stageData.map(item => item.count);
+
+      // Debug log: show parsed labels and data
+      console.debug("Chart labels:", labels);
+      console.debug("Chart data:", data);
+
+      const ctx = document.getElementById('stageChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Number of Applications',
+            data: data,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)'
+          }]
+        },
+        options: {
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    } catch (err) {
+      // Log the error and show a user-friendly message
+      console.error("Error rendering chart:", err);
+      const chartContainer = document.getElementById('stageChart');
+      if (chartContainer) {
+        chartContainer.outerHTML = "<div style='color:red;'>Could not render chart. See console for details.</div>";
       }
     }
-  });
   </script>
 {% endblock %}
