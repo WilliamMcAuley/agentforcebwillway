@@ -3,31 +3,6 @@
 {% block content %}
   <div class="container">
     <h1>Database Page</h1>
-    <h3>List of Accounts</h3>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Industry</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for account in accounts %}
-          <tr>
-            <td>{{ account.id }}</td>
-            <td>
-              <a href="{% url 'account_detail' account.id %}">{{ account.name }}</a>
-            </td>
-            <td>{{ account.industry }}</td>
-          </tr>
-        {% empty %}
-          <tr>
-            <td colspan="3">No accounts found.</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
 
     <h3>Accounts by Industry</h3>
     <canvas id="industryBarChart" width="600" height="300"></canvas>
@@ -75,6 +50,32 @@
         }
       }
     </script>
+
+    <h3>List of Accounts</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Industry</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for account in accounts %}
+          <tr>
+            <td>{{ account.id }}</td>
+            <td>
+              <a href="{% url 'account_detail' account.id %}">{{ account.name }}</a>
+            </td>
+            <td>{{ account.industry }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="3">No accounts found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 {% endblock %}
 
