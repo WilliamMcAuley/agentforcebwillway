@@ -28,7 +28,7 @@ urlpatterns = [
     path("news/", hello.views.news_article, name="news_article"),
     path('jobs/', views.jobs_list, name='jobs_list'),
     path('jobs/<str:job_id>/', views.job_detail, name='job_detail'),
-    path('accounts/add/' views.add_account, name='add_account')]
+    path('accounts/add/', views.add_account, name='add_account')]
     # https://docs.djangoproject.com/en/5.2/ref/contrib/admin/
     
 
