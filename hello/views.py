@@ -24,14 +24,13 @@ def index(request):
      return render(request,"index.html")
 
 def db(request):
-     accounts = Account.objects.all()
-     # Aggregate job applications by industry
-     industry_counts = (
-    Account.objects.values('industry')
-    .annotate(account_count=Count('id'))
-    .order_by('-account_count')
-)
-     return render(request, "db.html", {
+    accounts = Account.objects.all()
+    industry_counts = (
+        Account.objects.values('industry')
+        .annotate(account_count=Count('id'))
+        .order_by('-account_count')
+    )
+    return render(request, "db.html", {
         "accounts": accounts,
         "industry_counts": list(industry_counts),
     })
