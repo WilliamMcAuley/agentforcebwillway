@@ -37,9 +37,9 @@ def jobs_list(request):
     jobs = JobApplication.objects.all()
     # Aggregate job counts by Application_Status__c
     stage_counts = (
-        JobApplication.objects.values('Application_Status__c')
+        JobApplication.objects.values('application_status')
         .annotate(count=Count('id'))
-        .order_by('Application_Status__c')
+        .order_by('application_status')
     )
     return render(request, "jobs_list.html", {
         "jobs": jobs,
