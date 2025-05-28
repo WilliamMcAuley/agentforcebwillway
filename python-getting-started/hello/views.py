@@ -36,6 +36,9 @@ def news_article(request):
 # List all job applications
 def jobs_list(request):
     jobs = JobApplication.objects.all()
+    print("DEBUG: Jobs count:", jobs.count())
+    for job in jobs:
+        print("DEBUG: Job", job.id, job.name, job.application_status)
     stage_counts = (
         JobApplication.objects.values('application_status')
         .annotate(count=Count('id'))

@@ -19,19 +19,23 @@
     <div id="kanban-view" style="display:none;">
       <h3>Kanban Board</h3>
       <div style="display: flex; gap: 2rem; overflow-x: auto;">
-        {% for status, jobs in kanban.items %}
-          <div style="min-width: 250px; background: #f4f4f4; border-radius: 8px; padding: 1rem;">
-            <h4 style="text-align:center;">{{ status }}</h4>
-            {% for job in jobs %}
-              <div style="background: #fff; margin-bottom: 1rem; padding: 0.5rem 1rem; border-radius: 4px; box-shadow: 0 1px 3px #ccc;">
-                <a href="{% url 'job_detail' job.id %}"><strong>{{ job.name }}</strong></a>
-                <div style="font-size: 0.9em; color: #888;">ID: {{ job.id }}</div>
-              </div>
-            {% empty %}
-              <div>No jobs in this stage.</div>
-            {% endfor %}
-          </div>
-        {% endfor %}
+        {% if kanban %}
+          {% for status, jobs in kanban.items %}
+            <div style="min-width: 250px; background: #f4f4f4; border-radius: 8px; padding: 1rem;">
+              <h4 style="text-align:center;">{{ status }}</h4>
+              {% for job in jobs %}
+                <div style="background: #fff; margin-bottom: 1rem; padding: 0.5rem 1rem; border-radius: 4px; box-shadow: 0 1px 3px #ccc;">
+                  <a href="{% url 'job_detail' job.id %}"><strong>{{ job.name }}</strong></a>
+                  <div style="font-size: 0.9em; color: #888;">ID: {{ job.id }}</div>
+                </div>
+              {% empty %}
+                <div>No jobs in this stage.</div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        {% else %}
+          <div>No jobs found.</div>
+        {% endif %}
       </div>
     </div>
   </div>

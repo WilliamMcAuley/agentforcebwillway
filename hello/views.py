@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Count  # Make sure this import is present
 from .models import Account, JobApplication
 from .forms import AccountForm, JobApplicationForm
+from collections import defaultdict
 
 
 # Account Detail View
@@ -35,15 +36,21 @@ def news_article(request):
 # List all job applications
 def jobs_list(request):
     jobs = JobApplication.objects.all()
-    # Aggregate job counts by Application_Status__c
+    # Aggregate job counts by application_status
     stage_counts = (
         JobApplication.objects.values('application_status')
         .annotate(count=Count('id'))
         .order_by('application_status')
     )
+    # Group jobs by application_status for Kanban
+    kanban = defaultdict(list)
+    for job in jobs:
+        kanban[job.application_status or "Unknown"].append(job)
+    kanban = dict(sorted(kanban.items()))
     return render(request, "jobs_list.html", {
         "jobs": jobs,
         "stage_counts": list(stage_counts),
+        "kanban": kanban,  # <-- Add this line
     })
 
 # Job application detail/edit views
