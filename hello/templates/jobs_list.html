@@ -144,6 +144,52 @@
       resetBtn.onclick = function() { filterJobTable('All'); };
       document.querySelector('.container').appendChild(resetBtn);
     });
+
+    // Industry bubble chart (bar chart) - accounts by industry
+    try {
+      const industryData = {{ industry_counts|safe }};
+      console.debug("Industry counts data:", industryData);
+
+      if (!industryData || industryData.length === 0) {
+        document.getElementById('industryBubbleChart').outerHTML =
+          "<div style='color: #888; margin: 1em 0;'>No industry data available to display chart.</div>";
+      } else {
+        const labels = industryData.map(item => item.industry || "Unknown");
+        const data = industryData.map(item => item.account_count);
+
+        new Chart(document.getElementById('industryBubbleChart').getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Accounts',
+              data: data,
+              backgroundColor: 'rgba(54, 162, 235, 0.6)'
+            }]
+          },
+          options: {
+            plugins: {
+              legend: { display: false }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: { display: true, text: 'Accounts' }
+              },
+              x: {
+                title: { display: true, text: 'Industry' }
+              }
+            }
+          }
+        });
+      }
+    } catch (err) {
+      console.error("Error rendering industry chart:", err);
+      const chartContainer = document.getElementById('industryBubbleChart');
+      if (chartContainer) {
+        chartContainer.outerHTML = "<div style='color:red;'>Could not render chart. See console for details.</div>";
+      }
+    }
   </script>
   <style>
     .tab-btn {
