@@ -1,7 +1,7 @@
 from django.db import models
 
 class Account(models.Model):
-    id = models.CharField(max_length=255, primary_key=True)
+    id = models.IntegerField(primary_key=True)  # or CharField if using Salesforce IDs
     name = models.CharField(max_length=255)
     industry = models.CharField(max_length=255)
 
@@ -10,7 +10,7 @@ class Account(models.Model):
         db_table = 'account'
 
 class JobApplication(models.Model):
-    id = models.CharField(max_length=255, primary_key=True)
+    id = models.IntegerField(primary_key=True)  # or CharField if using Salesforce IDs
     name = models.CharField(max_length=255)
     application_status = models.CharField(max_length=255, db_column='application_status__c')
     # Add other fields as needed.
