@@ -1,4 +1,5 @@
 from django.db import models
+from ckeditor.fields import RichTextField
 
 class Account(models.Model):
     id = models.IntegerField(primary_key=True)  # or CharField if using Salesforce IDs
@@ -24,6 +25,7 @@ class NewsArticle(models.Model):
     slug = models.SlugField(unique=True)
     content = models.TextField()
     published = models.DateTimeField(auto_now_add=True)
+    content = RichTextField()
 
     class Meta:
         db_table = 'news_article'
