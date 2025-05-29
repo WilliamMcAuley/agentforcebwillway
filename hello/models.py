@@ -27,3 +27,4 @@ class NewsArticle(models.Model):
 
     class Meta:
         db_table = 'news_article'
+        managed = True
