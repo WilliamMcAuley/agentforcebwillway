@@ -257,4 +257,4 @@ LOGGING = {
 import os
 
 if os.name == "nt":  # Windows
-    STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
