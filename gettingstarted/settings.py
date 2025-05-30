@@ -254,5 +254,5 @@ LOGGING = {
 
 import os
 
-if os.name == "nt":  # Windows
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+# if os.name == "nt":  # Windows
+#     STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"

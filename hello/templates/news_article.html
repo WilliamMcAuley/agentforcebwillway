@@ -2,6 +2,6 @@
 {% block content %}
   <h2>{{ article.title }}</h2>
   <p><small>{{ article.published }}</small></p>
-  <div>{{ article.content|linebreaks }}</div>
+  <div>{{ article.content|safe }}</div>
   <a href="{% url 'news_list' %}">Back to news</a>
 {% endblock %}
