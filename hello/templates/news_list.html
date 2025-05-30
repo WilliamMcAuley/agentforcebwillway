@@ -7,7 +7,7 @@
         {% if article.thumbnail %}
           <img src="{{ article.thumbnail.url }}" alt="{{ article.title }} thumbnail" class="thumbnail" />
         {% endif %}
-        <a href="{% url 'news_detail' article.id %}">{{ article.title }}</a>
+        <a href="{% url 'news_article' article.slug %}">{{ article.title }}</a>
         <p><small>{{ article.published }}</small></p>
       </li>
     {% endfor %}
