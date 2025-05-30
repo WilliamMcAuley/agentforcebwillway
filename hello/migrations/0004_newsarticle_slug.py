@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='newsarticle',
             name='slug',
-            field=models.SlugField(blank=True, unique=True),
+            field=models.SlugField(blank=True, null=True),  # <-- add null=True for safety
         ),
     ]
