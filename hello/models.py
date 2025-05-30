@@ -21,11 +21,10 @@ class JobApplication(models.Model):
         db_table = 'job_application__c'
 
 class NewsArticle(models.Model):
-    title = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True)
+    title = models.CharField(max_length=200)
+    content = models.TextField()
     published = models.DateTimeField(auto_now_add=True)
-    content = RichTextField()
+    thumbnail = models.ImageField(upload_to='thumbnails/', blank=True, null=True)  # Add this line
 
-    class Meta:
-        db_table = 'news_article'
-        managed = True
+    def __str__(self):
+        return self.title
