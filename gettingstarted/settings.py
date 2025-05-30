@@ -253,3 +253,8 @@ LOGGING = {
         },
     },
 }
+
+import os
+
+if os.name == "nt":  # Windows
+    STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
