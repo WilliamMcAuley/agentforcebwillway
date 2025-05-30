@@ -197,10 +197,6 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "static/"
 
-STATICFILES_DIRS = [
-    os.path.join(os.path.dirname(ckeditor.__file__), 'static'),
-]
-
 STORAGES = {
     # Enable WhiteNoise's GZip and Brotli compression of static assets:
     # https://whitenoise.readthedocs.io/en/latest/django.html#add-compression-and-caching-support
